@@ -7,6 +7,7 @@ from django.conf import settings
 from .models import *
 
 from .models import Comment,Post
+from django.http import JsonResponse
 # Create your views here.
 def index(request):
     return render(request,"index.html",{
@@ -16,6 +17,9 @@ def index(request):
         'user':request.user,
         'media_url':settings.MEDIA_URL
     })
+
+def admin_page(request):
+    return render(request, 'admin.html')
 
 
 def signup(request):
@@ -41,19 +45,32 @@ def signup(request):
             
     return render(request,"signup.html")
 
+
 def signin(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request,username=username,password=password)
+
+        is_super_user = request.POST.get('is_super_user', 'false') == 'true'
+
+        user = authenticate(request, username=username, password=password)
+
         if user is not None:
-            auth.login(request,user)
-            return redirect("index")
+            if is_super_user and not user.is_superuser:
+                messages.info(request, 'You do not have admin privileges')
+                return redirect("signin")
+
+            auth.login(request, user)
+
+            if is_super_user:
+                return redirect("admin_page")
+            else:
+                return redirect("index")
         else:
-            messages.info(request,'Username or Password is incorrect')
+            messages.info(request, 'Username or Password is incorrect')
             return redirect("signin")
-            
-    return render(request,"signin.html")
+
+    return render(request, "signin.html")
 
 def logout(request):
     auth.logout(request)
@@ -75,7 +92,7 @@ def create(request):
             content = request.POST['content']
             category = request.POST['category']
             image = request.FILES['image']
-            Post(postname=postname,content=content,category=category,image=image,user=request.user).save()
+            Post(postname=postname,content=content,category=category,image_path=image,user_id=request.user.id).save()
         except:
             print("Error")
         return redirect('index')
@@ -117,6 +134,7 @@ def increaselikes(request,id):
 
 def post(request,id):
     post = Post.objects.get(id=id)
+    print(post.image_path.url)
     
     return render(request,"post-details.html",{
         "user":request.user,
@@ -178,3 +196,11 @@ def contact_us(request):
         context['message']=f"Dear {name}, Thanks for your time!"
 
     return render(request,"contact.html")
+
+def all_post(request):
+    posts = Post.objects.all().values("id", "postname", "category", "image_path", "content", "time", "likes", "user_id")
+    response_data = {
+        "media_url": settings.MEDIA_URL,
+        "posts": list(posts),
+    }
+    return JsonResponse(response_data, safe=False)

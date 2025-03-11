@@ -102,7 +102,7 @@
 
       {% for post in posts|slice:"0:3" %}
       <div class="col col-lg-4 col-md-6 col-12 mb-2 blog-post">
-        <img src="{{media_url}}{{post.image}}" alt="" width="100%" height="300px">
+        <img src="{{media_url}}{{post.image_path}}" alt="" width="100%" height="300px">
         <div class=" px-3 py-5 shadow">
         <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark">
           <span class="text-white bg-info text-center rounded-3 mt-5" style="padding: 8px;">{{post.category}}</span>
@@ -137,7 +137,7 @@
 
               {% for post in top_posts|slice:"0:7" %}
               <div class="col col-lg-6 col-12 pb-2 blog-post ">
-                <img src="{{media_url}}{{post.image}}" alt="" class="img-fluid" width="100%">
+                <img src="{{media_url}}{{post.image_path}}" alt="" class="img-fluid" width="100%">
                 <div class="px-3 py-5 shadow">
                   <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark mb-3">
                     <span class="text-white bg-info text-center rounded-3 mt-5"
@@ -172,7 +172,7 @@
 
                       {% for post in recent_posts|slice:"0:" %}
                       <li>
-                        <img src="{{media_url}}{{post.image}}" class="img-fluid" alt="" width="100%">
+                        <img src="{{media_url}}{{post.image_path}}" class="img-fluid" alt="" width="100%">
                         <a href="post-details.html">
                           <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark">
                             <h5>{{post.postname}}</h5>

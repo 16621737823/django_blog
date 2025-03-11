@@ -88,7 +88,7 @@
 
       {% for post in posts|slice:"0:3" %}
       <div class="col col-lg-4 col-md-6 col-12 mb-2 blog-post">
-        <img src="{{media_url}}{{post.image}}" alt="" width="100%" height="300px">
+        <img src="{{media_url}}{{post.image_path}}" alt="" width="100%" height="300px">
         <div class=" px-3 py-5 shadow">
           <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark">
             <span class="text-white bg-info text-center rounded-3 mt-5" style="padding: 8px;">{{post.category}}</span>
@@ -125,7 +125,7 @@
               <div class="col-lg-12">
                 <div class="blog-post">
                   <div class="blog-thumb">
-                    <img src="{{media_url}}{{post.image}}" alt="" style="height: 500px;">
+                    <img src="{{media_url}}{{post.image_path}}" alt="" style="height: 500px;">
                   </div>
                   <div class="down-content">
                     <span>{{post.category}}</span>

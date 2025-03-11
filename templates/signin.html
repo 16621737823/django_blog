@@ -85,8 +85,7 @@
     {%include 'header.html'%}
 
     <div class="container">
-        <div class="d-flex justify-content-center align-items-center " style="height: 100vh;">
-
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
             <form action="{% url 'signin' %}" method="post" class="p-5 shadow">
                 {% csrf_token %}
                 <h3>LOGIN</h3>
@@ -103,8 +102,14 @@
                 <div class="input-group mt-1">
                     <input type="password" class="form-control" name="password" required>
                 </div>
-                <button class="btn">Login</button>
-                <p class="para">Don't have an account ?<a href="{% url 'signup' %}"> Sign up</a></p>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" name="is_super_user" id="is_super_user" value="true">
+                    <label class="form-check-label" for="is_super_user">
+                        Super User
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Login</button>
+                <p class="para mt-3">Don't have an account ?<a href="{% url 'signup' %}"> Sign up</a></p>
             </form>
         </div>
     </div>

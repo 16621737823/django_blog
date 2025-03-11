@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="TemplateMo">
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+            rel="stylesheet">
+
+    <title>Blogs</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-stand-blog.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+
+
+</head>
+
+<body>
+
+{% include 'header.html' %}
+
+<div class="container mt-5 carousel">
+    <div id="carouselExampleCaptions" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+                    aria-label="Slide 4"></button>
+        </div>
+        <div class="carousel-inner">
+
+        </div>
+    </div>
+</div>
+
+<!-- Post 数据表格 -->
+<div class="container mt-4">
+    <h2>Post Data</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>name</th>
+            <th>category</th>
+            <th>picture</th>
+            <th>contene</th>
+            <th>time</th>
+            <th>likes</th>
+            <th>user_id</th>
+            <th>operate</th>
+        </tr>
+        </thead>
+        <tbody id="postTableBody">
+        <!-- 数据将通过 JS 动态填充 -->
+        </tbody>
+    </table>
+</div>
+
+
+{% include 'footer.html' %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch("/all_post")  // 向后端请求数据
+      .then(response => response.json())
+      .then(data => {
+        const tableBody = document.getElementById("postTableBody");
+        tableBody.innerHTML = ""; // 清空现有内容
+        const mediaUrl = data.media_url; // 获取 media_url
+
+        data.posts.forEach(p => {
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+            <td>${p.id}</td>
+            <td>${p.postname}</td>
+            <td>${p.category}</td>
+            <td>
+              ${p.image_path ? `<img src="${mediaUrl}${p.image_path}" width="100" alt="Post Image">` : "no picture"}
+            </td>
+            <td>${p.content.length > 50 ? p.content.substring(0, 50) + "..." : p.content}</td>
+            <td>${p.time}</td>
+            <td>${p.likes}</td>
+            <td>${p.user_id}</td>
+            <td>
+              <button class="btn btn-danger btn-sm" onclick="deletePost(${p.id})">delete</button>
+              <a href="/post/${p.id}" class="btn btn-primary btn-sm">view</a>
+            </td>
+          `;
+
+          tableBody.appendChild(row);
+        });
+      })
+      .catch(error => console.error("获取数据失败:", error));
+  });
+
+  function deletePost(id) {
+    if (!confirm("delete this post？")) return;
+
+    fetch(`/post/delete/${id}`, { method: "GET" }) // 发送删除请求
+      .then(response => {
+        if (response.ok) {
+          alert("删除成功！");
+          location.reload(); // 刷新页面
+        } else {
+          alert("删除失败！");
+        }
+      })
+      .catch(error => console.error("删除失败:", error));
+  }
+</script>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+        crossorigin="anonymous"></script>
+
+<!-- Additional Scripts -->
+<script src="{% static 'assets/js/custom.js' %}"></script>
+<script src="{% static 'assets/js/owl.js' %}"></script>
+<script src="{% static 'assets/js/slick.js' %}"></script>
+<script src="{% static 'assets/js/isotope.js' %}"></script>
+<script src="{% static 'assets/js/accordions.js' %}"></script>
+
+<script language="text/Javascript">
+    cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+    function clearField(t) {                   //declaring the array outside of the
+        if (!cleared[t.id]) {                      // function makes it static and global
+            cleared[t.id] = 1;  // you could use true and false, but that's more typing
+            t.value = '';         // with more chance of typos
+            t.style.color = '#fff';
+        }
+    }
+</script>
+
+</body>
+
+</html>

@@ -43,7 +43,7 @@ https://templatemo.com/tm-551-stand-blog
                 <div class="col-lg-12">
                   <div class="blog-post">
                     <div class="blog-thumb">
-                      <img src="{{media_url}}{{post.image}}" alt="post_image">
+                      <img src="{{media_url}}{{post.image_path}}" alt="post_image">
                     </div>
                     <div class="down-content">
                       <span>{{post.category}}</span>
@@ -123,7 +123,7 @@ https://templatemo.com/tm-551-stand-blog
                       <ul>
                         {% for post in recent_posts|slice:"0:4" %}
                         <li>
-                          <img src="{{media_url}}{{post.image}}" class="img-fluid" alt="">
+                          <img src="'{{media_url}}'{{post.image_path}}" class="img-fluid" alt="">
                           <a href="post-details.html">
                             <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark"><h5>{{post.postname}}</h5></a>
                           <span>{{post.time}}</span>
