@@ -154,7 +154,7 @@ def savecomment(request,id):
     
 def deletecomment(request,id):
     comment = Comment.objects.get(id=id)
-    postid = comment.post.id
+    postid = comment.post_id
     comment.delete()
     return post(request,postid)
     
