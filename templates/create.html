@@ -127,8 +127,14 @@
         </div>
         <label for="" class="form-label">Content</label>
         <textarea class="form-control" name="content" required></textarea>
-        <label for="" class="form-label">Category</label>
-        <input type="text" class="form-control" name="category" required>
+        <label for="category" class="form-label">Category</label>
+        <select name="category" class="form-select" required>
+          <option value="" disabled selected>-- Select Category --</option>
+          {% for key, display_value in category_choices.items %}
+            <option value="{{ key }}">{{ display_value }}</option>
+          {% endfor %}
+        </select>
+
         <label for="" class="form-label">Upload Image</label>
         <input type="file" class="form-control" name="image">
         <button class="btn">Create Blog</button>

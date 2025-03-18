@@ -4,8 +4,14 @@ from datetime import datetime
 now = datetime.now()
 time = now.strftime("%d %B %Y")
 
+CATEGORY_CHOICES = (
+    ('tech', 'Technology'),
+    ('life', 'Lifestyle'),
+    ('edu', 'Education'),
+)
+
 class Post(models.Model):
-    postname = models.CharField(max_length=255)  # MySQL 对 VARCHAR 处理更高效
+    postname = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
     image_path = models.ImageField(upload_to='images/posts', blank=True, null=True)   # 存储图片路径
     content = models.TextField()

@@ -126,6 +126,79 @@
   </div>
   {% endif %}
 
+
+
+<div class="container mt-5">
+
+  <div class="text-center mb-4">
+    <h2>Blog Categories</h2>
+
+  </div>
+
+
+  <div class="row justify-content-center mb-4">
+    <div class="col-auto text-center">
+
+      <span class="badge rounded-pill bg-primary me-2 mb-2" style="cursor:pointer;"
+            onclick="window.location.href='{% url 'index' %}'">
+        Show All
+      </span>
+
+      {% for cat in categories %}
+        <span class="badge rounded-pill
+                    {% if cat == selected_category %} bg-warning text-dark {% else %} bg-secondary {% endif %}
+                    me-2 mb-2"
+              style="cursor:pointer;"
+              onclick="window.location.href='?category={{ cat }}'">
+          {{ cat }}
+        </span>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+<div class="container mb-5">
+  <h3 class="mb-3" style="color: rgb(227, 73, 73); font-weight: bold;">Current Selected: {{ selected_category }}</h3>
+  <hr>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for post in recent_posts %}
+    <div class="col">
+
+      <div class="card h-100">
+
+        <img src="{{ media_url }}{{ post.image_path }}" class="card-img-top" alt="post image" style="object-fit: cover; height: 200px;">
+
+        <div class="card-body">
+          <a href="{% url 'post' post.id %}" class="text-decoration-none text-dark">
+
+            <span class="badge bg-info text-white mb-2">{{ post.category }}</span>
+            <h5 class="card-title mt-2">{{ post.postname }}</h5>
+          </a>
+
+          <form method="post" action="{% url 'increaselikes' post.id %}">
+            {% csrf_token %}
+            <button class="float-end bg-transparent border-0 text-danger fs-4" type="submit">
+              <i class="fa fa-heart"></i>
+            </button>
+          </form>
+
+          <p class="card-text mt-3">
+            {{ post.content|slice:"0:100" }}...
+          </p>
+        </div>
+
+        <div class="card-footer text-muted">
+          {{ post.time }}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
   <section class="blog-posts">
     <div class="container">
       <h3 class="mb-2" style="color: rgb(227, 73, 73); font-size: 30px; font-weight: bold;">RECENT POSTS</h3>
@@ -191,6 +264,7 @@
         </div>
       </div>
     </div>
+
   </section>
 
 
