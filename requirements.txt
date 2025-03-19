@@ -4,3 +4,4 @@ Pillow
 sqlparse
 tzdata
 mysql
+pymysql
