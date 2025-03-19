@@ -5,9 +5,11 @@ now = datetime.now()
 time = now.strftime("%d %B %Y")
 
 CATEGORY_CHOICES = (
-    ('tech', 'Technology'),
-    ('life', 'Lifestyle'),
-    ('edu', 'Education'),
+    ('Nature', 'Nature'),
+    ('Hiking', 'Hiking'),
+    ('Life', 'Life'),
+    ('Travel', 'Travel'),
+    ('Mountaineering', 'Mountaineering'),
 )
 
 class Post(models.Model):

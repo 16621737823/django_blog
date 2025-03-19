@@ -123,11 +123,14 @@ def create(request):
     else:
         # 传给模板的可选分类，用字典
         category_choices = {
-            'tech': 'Technology',
-            'life': 'Lifestyle',
-            'edu': 'Education',
-            'other': 'Other',
+            'Nature': 'Nature',
+            'Hiking': 'Hiking',
+            'Life': 'Life',
+            'Travelling': 'Travelling',
+            'Mountaineering': 'Mountaineering',
+            'Other': 'Other'
         }
+
         return render(request, "create.html", {
             "category_choices": category_choices
         })
