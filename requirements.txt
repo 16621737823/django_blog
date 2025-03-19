@@ -3,3 +3,4 @@ django
 Pillow
 sqlparse
 tzdata
+mysql
